@@ -7,6 +7,27 @@
 
 const fs = require('fs')
 
+const wb = document.querySelector('#wb')
+const wbLoading = document.querySelector('#wb-loading')
+wb.addEventListener('did-start-loading',()=>{
+  wbLoading.innerHTML = 'loading...'
+})
+wb.addEventListener('did-stop-loading',()=>{
+  wbLoading.innerHTML = 'done.'
+  wb.insertCSS(`
+  #su {
+    background-color: red;
+  }
+  `) // 可以注入css来适应应用，而不用修改原页面
+  wb.executeJavaScript(`
+    setTimeout(() => {
+      alert(document.getElementById('su').value)
+    }, 2000);
+  `)
+  wb.openDevTools()
+})
+
+
 const dragWrapper = document.getElementById('file-drag')
 dragWrapper.addEventListener('drop', (e) => {
   e.preventDefault() // 防止页面迁移（比如打开了拖入的html）
