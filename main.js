@@ -1,5 +1,5 @@
 // Modules to control application life and create native browser window
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow, BrowserView } = require('electron')
 const path = require('path')
 
 function createWindow() {
@@ -16,15 +16,27 @@ function createWindow() {
       nodeIntegration: true,
     },
   })
-  
+
   mainWindow.once('ready-to-show', () => {
     mainWindow.show()
   })
 
   childWindow = new BrowserWindow({
     parent: mainWindow, // 指定父窗口
-    modal: true, // 模态窗口，存在时禁用父窗口（现在都用全屏遮罩了）
+    // modal: true, // 模态窗口，存在时禁用父窗口（现在都用全屏遮罩了）
   })
+
+  const view = new BrowserView()
+  // api https://www.electronjs.org/docs/api/browser-view
+  view.setBounds({
+    x: 10,
+    y: 10,
+    width: 300,
+    height: 200,
+  })
+  view.webContents.loadURL('https://yuufen.com')
+  mainWindow.setBrowserView(view)
+
 
   // and load the index.html of the app.
   mainWindow.loadFile('index.html')
