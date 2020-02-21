@@ -9,18 +9,21 @@
     <link rel="stylesheet" href="css/style.css" />
   </head>
   <body>
-    <div>
+
+<div>
+  <h2>弹出子窗口</h2>
+  <button id="new-window-btn">弹出</button>
+</div>
+
+    <!-- <div>
       <h2>Webview</h2>
       <span id="wb-loading"></span>
       <webview id="wb" src="https://www.baidu.com" preload="./webview/preload.js" />
-    </div>
-
-
+    </div> -->
     <div>
       <h2>File对象</h2>
       <div class="file-drag" id="file-drag">往这里拖动文件</div>
     </div>
-
     <!-- You can also require other files to run in this process -->
     <script src="./renderer.js"></script>
   </body>

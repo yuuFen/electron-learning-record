@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>这是弹出的子窗口</h1>
+    <button onclick="sendMsgToParent()">像父窗口传递信息</button>
+  </body>
+
+  <script>
+    function sendMsgToParent() {
+      window.opener.postMessage('我是子窗口，收到回复')
+    }
+  </script>
+</html>
