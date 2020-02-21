@@ -1,0 +1,8 @@
+.file-drag {
+  width: 200px;
+  height: 120px;
+  background-color: #f2f2f2;
+  border: solid 2px #eee;
+  line-height: 120px;
+  text-align: center;
+}
