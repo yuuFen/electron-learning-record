@@ -7,11 +7,23 @@ function createWindow() {
   const mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
+    // frame: false, // 边框、顶部菜单
+    show: false, // new时不显示，等到ready-to-show时再显示
+    // backgroundColor: '#eee',
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       webviewTag: true,
       nodeIntegration: true,
     },
+  })
+  
+  mainWindow.once('ready-to-show', () => {
+    mainWindow.show()
+  })
+
+  childWindow = new BrowserWindow({
+    parent: mainWindow, // 指定父窗口
+    modal: true, // 模态窗口，存在时禁用父窗口（现在都用全屏遮罩了）
   })
 
   // and load the index.html of the app.
