@@ -7,7 +7,17 @@
 // Now `nodeIntegration` is turned on
 
 const fs = require('fs')
-const { dialog } = require('electron').remote
+const { dialog, globalShortcut } = require('electron').remote
+
+// 热键(渲染进程中)
+const ret = globalShortcut.register('CommandOrControl+I', () => {
+  console.log('CommandOrControl+I is pressed') // 主线程的log
+})
+if (!ret) {
+  console.log('registration failed')
+}
+// 检查快捷键是否注册成功
+console.log('CommandOrControl+I：', globalShortcut.isRegistered('CommandOrControl+I'))
 
 // dialog
 document.getElementById('open-dialog-btn').onclick = () => {

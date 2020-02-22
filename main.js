@@ -1,5 +1,5 @@
 // Modules to control application life and create native browser window
-const { app, BrowserWindow, BrowserView } = require('electron')
+const { app, BrowserWindow, BrowserView, globalShortcut } = require('electron')
 const path = require('path')
 
 function createWindow() {
@@ -38,7 +38,6 @@ function createWindow() {
   // view.webContents.loadURL('https://yuufen.com')
   // mainWindow.setBrowserView(view)
 
-
   // and load the index.html of the app.
   mainWindow.loadFile('index.html')
 
@@ -49,7 +48,24 @@ function createWindow() {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on('ready', createWindow)
+app.on('ready', () => {
+  createWindow()
+  // 注册一个 'CommandOrControl+X' 的全局快捷键(焦点不在程序时也生效)
+  const ret = globalShortcut.register('CommandOrControl+O', () => {
+    console.log('CommandOrControl+O is pressed') // 主线程的log
+  })
+  if (!ret) {
+    console.log('registration failed')
+  }
+  // 检查快捷键是否注册成功
+  console.log('CommandOrControl+O：', globalShortcut.isRegistered('CommandOrControl+O'))
+})
+app.on('will-quit', () => {
+  // 注销快捷键
+  globalShortcut.unregister('CommandOrControl+O')
+  // 注销所有快捷键
+  globalShortcut.unregisterAll()
+})
 
 // Quit when all windows are closed.
 app.on('window-all-closed', function() {
