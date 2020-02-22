@@ -1,5 +1,5 @@
 // Modules to control application life and create native browser window
-const { app, BrowserWindow, BrowserView, globalShortcut } = require('electron')
+const { app, BrowserWindow, BrowserView, globalShortcut, ipcMain } = require('electron')
 const path = require('path')
 
 function createWindow() {
@@ -43,6 +43,10 @@ function createWindow() {
 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools()
+
+  setTimeout(() => {
+    mainWindow.webContents.send('asynchronous-reply', '这是主进程主动发送的消息')
+  }, 2000)
 }
 
 // This method will be called when Electron has finished
@@ -82,3 +86,15 @@ app.on('activate', function() {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
+
+// ipc 进程间通信
+// 异步
+ipcMain.on('asynchronous-message', (event, arg) => {
+  console.log(arg)
+  event.reply('asynchronous-reply', '异步 reply from main')
+})
+// 同步
+ipcMain.on('synchronous-message', (event, arg) => {
+  console.log(arg)
+  event.returnValue = '同步 reply from main'
+})

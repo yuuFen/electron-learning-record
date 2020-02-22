@@ -8,6 +8,22 @@
 
 const fs = require('fs')
 const { dialog, globalShortcut } = require('electron').remote
+const { ipcRenderer } = require('electron')
+
+// ipc 进程间通信
+document.getElementById('ipc-test-btn').onclick = () => {
+  sendMessage()
+}
+// 异步发送并接收回复
+ipcRenderer.on('asynchronous-reply', (event, arg) => {
+  console.log(arg)
+})
+function sendMessage() {
+  ipcRenderer.send('asynchronous-message', '异步消息 from renderer')
+  // 同步发送并接收回复 会阻塞等待 event.returnValue
+  const res = ipcRenderer.sendSync('synchronous-message', '同步消息 from renderer')
+  console.log(res)
+}
 
 // 热键(渲染进程中)
 const ret = globalShortcut.register('CommandOrControl+I', () => {
