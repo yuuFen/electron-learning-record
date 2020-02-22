@@ -7,8 +7,24 @@
 // Now `nodeIntegration` is turned on
 
 const fs = require('fs')
-const { dialog, globalShortcut, Menu, MenuItem } = require('electron').remote
+const { dialog, globalShortcut, Menu, MenuItem, net } = require('electron').remote
 const { ipcRenderer } = require('electron')
+
+// net
+document.getElementById('access-baidu-btn').onclick = () => {
+  const request = net.request('https://www.baidu.com')
+  request.on('response', (res) => {
+    console.log(`statusCode: ${res.statusCode}`)
+    console.log(`header: ${JSON.stringify(res.headers)}`)
+    res.on('data', (chunk) => {
+      console.log(`chunk: ${chunk.toString()}`)
+    })
+    res.on('end', () => {
+      console.log('end')
+    })
+  })
+  request.end()
+}
 
 // 菜单
 document.getElementById('pop-menu-btn').onclick = () => {
