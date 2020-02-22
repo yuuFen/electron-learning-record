@@ -1,5 +1,5 @@
 // Modules to control application life and create native browser window
-const { app, BrowserWindow, BrowserView, globalShortcut, ipcMain } = require('electron')
+const { app, BrowserWindow, BrowserView, globalShortcut, ipcMain, Menu } = require('electron')
 const path = require('path')
 
 function createWindow() {
@@ -46,6 +46,24 @@ function createWindow() {
 
   setTimeout(() => {
     mainWindow.webContents.send('asynchronous-reply', '这是主进程主动发送的消息')
+
+    // // 可以设置所有渲染进程默认的顶部菜单
+    // const template = [
+    //   { label: '第一个菜单项目' },
+    //   {
+    //     label: '点击测试',
+    //     click: () => {
+    //       console.log('点击测试')
+    //     },
+    //   },
+    //   { role: 'undo' },
+    //   { type: 'separator' },
+    //   { label: '第三个菜单项目' },
+    //   { label: '第四个菜单项目' },
+    // ]
+    // const menu = Menu.buildFromTemplate(template)
+    // Menu.setApplicationMenu(menu)
+    // // menu.popup()
   }, 2000)
 }
 

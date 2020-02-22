@@ -7,8 +7,31 @@
 // Now `nodeIntegration` is turned on
 
 const fs = require('fs')
-const { dialog, globalShortcut } = require('electron').remote
+const { dialog, globalShortcut, Menu, MenuItem } = require('electron').remote
 const { ipcRenderer } = require('electron')
+
+// 菜单
+document.getElementById('pop-menu-btn').onclick = () => {
+  menu.popup()
+}
+const template = [
+  { role: 'undo' },
+  { role: 'redo' },
+  { label: '第二个菜单项目' },
+  {
+    label: '点击测试',
+    click: (menuItem, browserWindow, event) => {
+      console.log('点击测试')
+    },
+  },
+  { label: '旅游', type: 'checkbox', checked: true },
+  { label: '吃', type: 'checkbox', checked: true },
+  { label: '喝', type: 'checkbox', checked: false },
+  new MenuItem({ label: 'MenuItem' }),
+  { label: '子菜单', submenu: [{ label: '子菜单-1' }, { label: '子菜单-2' }, { label: '子菜单-3' }] },
+]
+const menu = Menu.buildFromTemplate(template)
+// Menu.setApplicationMenu(menu)
 
 // ipc 进程间通信
 document.getElementById('ipc-test-btn').onclick = () => {
