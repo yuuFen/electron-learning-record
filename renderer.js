@@ -4,9 +4,59 @@
 // `nodeIntegration` is turned off. Use `preload.js` to
 // selectively enable features needed in the rendering
 // process.
+// Now `nodeIntegration` is turned on
 
 const fs = require('fs')
+const { dialog } = require('electron').remote
 
+// dialog
+document.getElementById('open-dialog-btn').onclick = () => {
+  openDialog()
+}
+document.getElementById('save-dialog-btn').onclick = () => {
+  saveDialog()
+}
+document.getElementById('message-dialog-btn').onclick = () => {
+  MessageDialog()
+}
+function MessageDialog() {
+  const result = dialog.showMessageBoxSync({
+    type: 'warning',
+    title: 'Are you sure??',
+    message: 'Are you really really really really sure?????',
+    buttons: ['Cancel', 'OK'], // 看系统的API
+  })
+  console.log(result) // 当不存在Cancel时，关闭返回0；存在时关闭返回Cancel的index
+}
+function saveDialog() {
+  const result = dialog.showSaveDialogSync({
+    title: '选择要保存的路径',
+    // buttonLabel: '保存',
+    filters: [
+      // { name: 'Images', extensions: ['jpg', 'png', 'gif'] },
+      // { name: 'Movies', extensions: ['mkv', 'avi', 'mp4'] },
+      { name: 'Custom File Type', extensions: ['py'] },
+      // { name: 'All Files', extensions: ['*'] },
+    ],
+  })
+  console.log(result) // 返回 文件路径 / undefined
+  fs.writeFileSync(result, '保存文件测试')
+}
+function openDialog() {
+  const result = dialog.showOpenDialogSync({
+    title: '选择一个文件',
+    buttonLabel: 'GO GO GO',
+    filters: [
+      { name: 'Images', extensions: ['jpg', 'png', 'gif'] },
+      // { name: 'Movies', extensions: ['mkv', 'avi', 'mp4'] },
+      // { name: 'Custom File Type', extensions: ['py'] },
+      // { name: 'All Files', extensions: ['*'] },
+    ],
+  })
+  console.log(result) // 返回 文件路径Array / undefined
+}
+
+// 打开子窗口
 document.querySelector('#new-window-btn').onclick = () => {
   openNewWindow()
 }
@@ -19,6 +69,7 @@ window.addEventListener('message', (msg) => {
   console.log('接收到的消息:', msg)
 })
 
+// // webview
 // const wb = document.querySelector('#wb')
 // const wbLoading = document.querySelector('#wb-loading')
 // wb.addEventListener('did-start-loading', () => {
@@ -39,6 +90,7 @@ window.addEventListener('message', (msg) => {
 //   wb.openDevTools()
 // })
 
+// 文件拖动
 const dragWrapper = document.getElementById('file-drag')
 dragWrapper.addEventListener('drop', (e) => {
   e.preventDefault() // 防止页面迁移（比如打开了拖入的html）

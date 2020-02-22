@@ -17,25 +17,26 @@ function createWindow() {
     },
   })
 
+  // 优雅的显示
   mainWindow.once('ready-to-show', () => {
     mainWindow.show()
   })
-
-  childWindow = new BrowserWindow({
-    parent: mainWindow, // 指定父窗口
-    // modal: true, // 模态窗口，存在时禁用父窗口（现在都用全屏遮罩了）
-  })
-
-  const view = new BrowserView()
-  // api https://www.electronjs.org/docs/api/browser-view
-  view.setBounds({
-    x: 10,
-    y: 10,
-    width: 300,
-    height: 200,
-  })
-  view.webContents.loadURL('https://yuufen.com')
-  mainWindow.setBrowserView(view)
+  // // 子渲染进程
+  // childWindow = new BrowserWindow({
+  //   parent: mainWindow, // 指定父窗口
+  //   // modal: true, // 模态窗口，存在时禁用父窗口（现在都用全屏遮罩了）
+  // })
+  // //BrowserView
+  // const view = new BrowserView()
+  // // api https://www.electronjs.org/docs/api/browser-view
+  // view.setBounds({
+  //   x: 10,
+  //   y: 10,
+  //   width: 300,
+  //   height: 200,
+  // })
+  // view.webContents.loadURL('https://yuufen.com')
+  // mainWindow.setBrowserView(view)
 
 
   // and load the index.html of the app.
